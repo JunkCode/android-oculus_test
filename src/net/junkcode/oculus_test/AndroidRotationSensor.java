@@ -1,5 +1,8 @@
 package net.junkcode.oculus_test;
 
+/**
+ * TODO: get full accelerometer and gyroscope data
+ */
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;

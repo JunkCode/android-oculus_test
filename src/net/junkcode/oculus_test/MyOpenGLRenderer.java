@@ -1,7 +1,8 @@
 package net.junkcode.oculus_test;
 
 /**
- * original source: http://www.intransitione.com/blog/create-a-spinning-cube-with-opengl-es-and-android/
+ * original source from: http://www.intransitione.com/blog/create-a-spinning-cube-with-opengl-es-and-android/
+ * TODO: distortion,IPD,...
  */
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -42,7 +43,7 @@ public class MyOpenGLRenderer implements Renderer {
          gl.glLoadIdentity();
          
          
-         gl.glTranslatef(1.0f*(left?-1:+1), 0.0f, -15.0f);
+         gl.glTranslatef(1.0f*(left?+1:-1), 0.0f, -15.0f);
          
          // rotate cube by info from orientation sensor
          gl.glRotatef(sens.getAzimuth(), 0.0f, -1.0f, 0.0f);

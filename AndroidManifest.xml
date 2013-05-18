@@ -5,11 +5,12 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="12"
         android:targetSdkVersion="17" />
 
     <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true" />
 	<uses-feature android:name="android.hardware.sensor.compass" android:required="true" />
+	<uses-feature android:name="android.hardware.usb.host" android:required="true" />
 	
     <application
         android:allowBackup="true"
