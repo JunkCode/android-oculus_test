@@ -1,28 +1,13 @@
 package net.junkcode.oculus_test;
 
-import java.util.HashMap;
-
-import android.app.Activity;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.hardware.usb.UsbAccessory;
-import android.hardware.usb.UsbDevice;
-import android.hardware.usb.UsbManager;
+//library for oculus from https://github.com/sebastianherp/riftlibrary/tree/master/riftlibrary
+import net.appsdoneright.riftlib.RiftActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- * 
- * @see SystemUiHider
- */
-public class FullscreenActivity extends Activity {
+
+public class FullscreenActivity extends RiftActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,17 +21,19 @@ public class FullscreenActivity extends Activity {
 		
 		
 		/** get usb **/
-		USBmanager usb = new USBmanager(this);
+		//USBmanager usb = new USBmanager(this);
+		SimpleRiftHandler simpleRiftHandler = new SimpleRiftHandler();
+		setRiftHandler(simpleRiftHandler);
 		
 		/** setup scene **/
 		MyGLSurfaceView glSurfaceView_left = (MyGLSurfaceView)findViewById(R.id.surfaceviewclass_1);
 		MyGLSurfaceView glSurfaceView_right = (MyGLSurfaceView)findViewById(R.id.surfaceviewclass_2);
         		
 		Cube cube = new Cube();
-		AndroidRotationSensor sens = new AndroidRotationSensor(this);
+		AndroidRotationSensor androidSensor = new AndroidRotationSensor(this);
 		
-		glSurfaceView_left.setRenderer(new MyOpenGLRenderer(cube,sens,true));
-		glSurfaceView_right.setRenderer(new MyOpenGLRenderer(cube,sens,false));
+		glSurfaceView_left.setRenderer(new MyOpenGLRenderer(cube,androidSensor,simpleRiftHandler,true));
+		glSurfaceView_right.setRenderer(new MyOpenGLRenderer(cube,androidSensor,simpleRiftHandler,false));
 		
 		
 	}
