@@ -2,6 +2,7 @@ package net.junkcode.oculus_test;
 
 import net.appsdoneright.riftlib.util.Quaternion;
 import net.appsdoneright.riftlib.util.RiftHandler;
+import net.appsdoneright.riftlib.util.Vector3;
 
 public class SimpleRiftHandler implements RiftHandler{
 
@@ -26,4 +27,7 @@ public class SimpleRiftHandler implements RiftHandler{
 		return mQuaternion.toMatrix();
 	}
 
+	public Vector3 getAngles(){
+		return mQuaternion.toAngles();
+	}
 }

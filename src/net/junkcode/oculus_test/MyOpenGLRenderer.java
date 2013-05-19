@@ -7,16 +7,13 @@ package net.junkcode.oculus_test;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import net.appsdoneright.riftlib.util.RiftHandler;
-
-import android.content.Context;
+import net.appsdoneright.riftlib.util.Vector3;
 import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.GLU;
 
 public class MyOpenGLRenderer implements Renderer {
 
 	 private Cube mCube;
-     private float mCubeRotation;
 	 private boolean left;
 	 private AndroidRotationSensor androidSensor;
 	 private SimpleRiftHandler simpleRiftHandler;
@@ -46,20 +43,30 @@ public class MyOpenGLRenderer implements Renderer {
          gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);        
          gl.glLoadIdentity();
          
-         gl.glMultMatrixf(simpleRiftHandler.getMatrix(), 0);
-         
          gl.glTranslatef(1.0f*(left?+1:-1), 0.0f, -15.0f);
          
-         // rotate cube by info from orientation sensor
+         /** Rotate by head **/
+        // gl.glMultMatrixf(simpleRiftHandler.getMatrix(), 0);
+         
+         /** Levitate model before eyes **/
+         Vector3 angles = simpleRiftHandler.getAngles();
+         
+         gl.glRotatef(-(float)Math.toDegrees(angles.z), 1.0f, 0.0f, 0.0f);
+         gl.glRotatef(-(float)Math.toDegrees(angles.y), 0.0f, 0.0f, 1.0f);
+         gl.glRotatef(-(float)Math.toDegrees(angles.x), 0.0f, 1.0f, 0.0f);
+         
+         /** rotate cube by info from orientation sensor **/
          gl.glRotatef(androidSensor.getAzimuth(), 0.0f, -1.0f, 0.0f);
          gl.glRotatef(androidSensor.getPitch(), 1.0f, 0.0f, 0.0f);
          gl.glRotatef(androidSensor.getRoll(), 0.0f, 0.0f, 1.0f);
-             
+           
+        
+         
+         
          mCube.draw(gl);
             
          gl.glLoadIdentity();                                    
              
-         mCubeRotation -= 0.60f; 
      }
 
      @Override
