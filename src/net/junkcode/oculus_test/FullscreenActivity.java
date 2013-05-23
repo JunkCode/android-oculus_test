@@ -3,8 +3,13 @@ package net.junkcode.oculus_test;
 //library for oculus from https://github.com/sebastianherp/riftlibrary/tree/master/riftlibrary
 import net.appsdoneright.riftlib.RiftActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 
 public class FullscreenActivity extends RiftActivity {
@@ -29,14 +34,40 @@ public class FullscreenActivity extends RiftActivity {
 		MyGLSurfaceView glSurfaceView_left = (MyGLSurfaceView)findViewById(R.id.surfaceviewclass_1);
 		MyGLSurfaceView glSurfaceView_right = (MyGLSurfaceView)findViewById(R.id.surfaceviewclass_2);
         		
-		Cube cube = new Cube();
-		AndroidRotationSensor androidSensor = new AndroidRotationSensor(this);
+		/** Model **/
+		RiftOnDroid model = new RiftOnDroid();
 		
-		glSurfaceView_left.setRenderer(new MyOpenGLRenderer(cube,androidSensor,simpleRiftHandler,true));
-		glSurfaceView_right.setRenderer(new MyOpenGLRenderer(cube,androidSensor,simpleRiftHandler,false));
+		/** Android sensor **/
+		final AndroidRotationSensor androidSensor = new AndroidRotationSensor(this);
 		
+		/** Set viewports **/
+		final MyOpenGLRenderer left = new MyOpenGLRenderer(model,androidSensor,simpleRiftHandler,true);
+		final MyOpenGLRenderer right = new MyOpenGLRenderer(model,androidSensor,simpleRiftHandler,false);
+		glSurfaceView_left.setRenderer(left);
+		glSurfaceView_right.setRenderer(right);
 		
+		/** Link GUI **/
+		((Button) findViewById(R.id.buttonSwapper)).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				androidSensor.swapAxes();
+			}
+		});
+		((SeekBar) findViewById(R.id.zoomSeekBar)).setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {}
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {}
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {	
+				left.setZoom(progress);
+				right.setZoom(progress);
+			}
+		});
 	}
+	
+	
 
 
 }

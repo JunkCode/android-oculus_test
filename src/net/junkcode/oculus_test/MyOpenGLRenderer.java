@@ -13,13 +13,13 @@ import android.opengl.GLU;
 
 public class MyOpenGLRenderer implements Renderer {
 
-	 private Cube mCube;
+	 private RiftOnDroid mModel;
 	 private boolean left;
 	 private AndroidRotationSensor androidSensor;
 	 private SimpleRiftHandler simpleRiftHandler;
 
-     public MyOpenGLRenderer(Cube cube, AndroidRotationSensor sens, SimpleRiftHandler srh, boolean b){
-    	 mCube = cube;
+     public MyOpenGLRenderer(RiftOnDroid model, AndroidRotationSensor sens, SimpleRiftHandler srh, boolean b){
+    	 mModel = model;
     	 androidSensor = sens;
     	 simpleRiftHandler = srh;
     	 left= b;
@@ -38,12 +38,14 @@ public class MyOpenGLRenderer implements Renderer {
              
      }
 
+     float zoom=0.5f;
      @Override
      public void onDrawFrame(GL10 gl) {
          gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);        
          gl.glLoadIdentity();
          
-         gl.glTranslatef(1.0f*(left?+1:-1), 0.0f, -15.0f);
+         
+         gl.glTranslatef(zoom*(left?+1:-1), 0.0f, -15.0f*zoom);
          
          /** Rotate by head **/
         // gl.glMultMatrixf(simpleRiftHandler.getMatrix(), 0);
@@ -63,7 +65,7 @@ public class MyOpenGLRenderer implements Renderer {
         
          
          
-         mCube.draw(gl);
+         mModel.draw(gl);
             
          gl.glLoadIdentity();                                    
              
@@ -80,5 +82,11 @@ public class MyOpenGLRenderer implements Renderer {
          gl.glMatrixMode(GL10.GL_MODELVIEW);
          gl.glLoadIdentity();
      }
+
+	public void setZoom(int progress) {
+		zoom=(101.0f-progress)/100.0f;
+		
+	}
+
 
 }

@@ -18,6 +18,7 @@ public class AndroidRotationSensor implements SensorEventListener{
 	float azimuth=0.0f;
 	float pitch=0.0f;
 	float roll=0.0f;
+	int axisSwapper=-1;
 	
 	public AndroidRotationSensor(Context cont){
 		sensorManager = (SensorManager) cont.getSystemService(Context.SENSOR_SERVICE);
@@ -40,8 +41,8 @@ public class AndroidRotationSensor implements SensorEventListener{
 	@Override
 	public void onSensorChanged(SensorEvent event) {
 		azimuth = event.values[0];
-		pitch = event.values[2];
-		roll = event.values[1];
+		pitch = event.values[2]*axisSwapper;
+		roll = event.values[1]*axisSwapper;
 		
 	}
 	public float getAzimuth(){
@@ -52,6 +53,10 @@ public class AndroidRotationSensor implements SensorEventListener{
 	}
 	public float getRoll(){
 		return roll;
+	}
+	public void swapAxes() {
+		axisSwapper*=-1;
+		
 	}
 
 }
